@@ -1,0 +1,23 @@
+version: "3.5" # 설치된 docker 버전에 따라 다릅니다!
+services:
+  nginx:
+    container_name: nginx
+    build: 
+      context: .
+      dockerfile: ./nginx/dockerfile.nginx
+    ports:
+      - "80:80"
+    networks:
+      - backend
+
+  test_client:
+    container_name: test_client
+    build: ./client/ # Dockerfile이 위치한 경로
+    ports:
+      - "3000:3000" # 연결할 포트
+    networks: # 각 컨테이너를 연결하는 네트워크
+      - backend
+
+networks: # 가장 기본적인 bridge 네트워크
+  backend:
+    driver: bridge
